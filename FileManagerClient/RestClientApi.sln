@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestClientApi", "RestClientApi\RestClientApi.csproj", "{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Files|Any CPU = Files|Any CPU
+		r|Any CPU = r|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}.Files|Any CPU.ActiveCfg = Files|Any CPU
+		{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}.Files|Any CPU.Build.0 = Files|Any CPU
+		{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}.r|Any CPU.ActiveCfg = r|Any CPU
+		{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}.r|Any CPU.Build.0 = r|Any CPU
+		{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAEBDC1F-F84E-4C49-93A2-BE1AA50933FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B7AEA89-AB59-446F-8C3F-2375811346E1}
+	EndGlobalSection
+EndGlobal
