@@ -66,7 +66,6 @@ namespace RestClientApi.RestClient
             return null;
         }
 
-
         public async Task<string> DownloadFile(string address, string path_save_file, string name_file, TypeMethodDownloadFile type_method_download_file = TypeMethodDownloadFile.HTTP_CLIENT_STREAM, string expansion_file = null)
         {
             bool address_validate = address.IndexOf("/") == -1 ? false : true;

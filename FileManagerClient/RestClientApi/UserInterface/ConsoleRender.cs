@@ -1,4 +1,5 @@
 ﻿using RestClientApi.Cache;
+using RestClientApi.Enums;
 using RestClientApi.RestClient;
 using System;
 using System.Configuration;
@@ -14,6 +15,7 @@ namespace RestClientApi.UserInterface
         public static RestFiles files;
         public static RestAccount account;
         public static RestRequest request;
+
         public static void Init(string title, int height, int width, ConsoleColor background_color, ConsoleColor foreground_color)
         {
             Console.Title = title;
@@ -42,11 +44,7 @@ namespace RestClientApi.UserInterface
                 is_exit_programm = false;
                 await InfiniteLoopMenuAsync();
             }
-            else
-            {
-                await InfiniteLoopMenuAsync();
-
-            }
+            else await InfiniteLoopMenuAsync();
         }
 
         public static async Task InfiniteLoopMenuAsync()
@@ -112,7 +110,7 @@ namespace RestClientApi.UserInterface
             Console.WriteLine("1.Регистрация.");
             Console.WriteLine("2.Авторизация.");
             Console.WriteLine("3.Выход.");
-            return Input(InputPage.menu);
+            return Input(EInputPage.menu);
         }
 
         public static int ServicePage()
@@ -124,7 +122,7 @@ namespace RestClientApi.UserInterface
             Console.WriteLine("3.Просмотр удаленной директории.");
             Console.WriteLine("4.Выйти из аккаунта.");
             Console.WriteLine("5.Выйти.");
-            return Input(InputPage.service);
+            return Input(EInputPage.service);
         }
 
         public static async Task<bool> RegistrationPageAsync()
@@ -163,8 +161,7 @@ namespace RestClientApi.UserInterface
             return false;
         }
 
-
-        public static int Input(InputPage input_page)
+        public static int Input(EInputPage input_page)
         {
             try
             {
@@ -172,9 +169,9 @@ namespace RestClientApi.UserInterface
                 Console.Write("Ввод: ");
                 int index_page = int.Parse(Console.ReadLine());
 
-                if (input_page == InputPage.menu)
+                if (input_page == EInputPage.menu)
                     if (!(index_page >= 1 && index_page <= 3)) return Input(input_page);
-                else if (input_page == InputPage.service)
+                else if (input_page == EInputPage.service)
                     if (!(index_page >= 1 && index_page <= 5)) return Input(input_page);
 
                 return index_page;
@@ -182,12 +179,5 @@ namespace RestClientApi.UserInterface
             catch (Exception) { Input(input_page); }
             return 0;
         }
-
     }
-}
-
-public enum InputPage
-{
-    menu,
-    service,
 }

@@ -56,7 +56,6 @@ namespace RestClientApi.RestClient
             catch (Exception ex) { return $"Произошла непредвиденная ошибка при отправки файла на сервер: {ex.Message}."; }
         }
 
-
         public async Task<FileInfoModel> DirectoryInfo()
         {
             try
