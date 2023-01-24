@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RestClientApi.Models.AccountModel
+﻿namespace RestClientApi.Models.AccountModel
 {
     public class RegistrationModel
     {

@@ -7,17 +7,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestClientApi.Models.FileModel;
+using RestClientApi.UserInterface;
 
 namespace RestClientApi.RestClient
 {
-    internal class RestFiles
+    public class RestFiles
     {
-        private static string server = "http://localhost:5001/files/";
-        private static string root_load = "load";
-        private static string root_info = "info";
-        private static string root_download = "download/";
+        private string server = null;
+        private string root_load = "load";
+        private string root_info = "info";
+        private string root_download = "download/";
+        private AuthenticationHeaderValue authentication_header_value;
 
-        public static async Task<string> SendFileBinaryAsync(string path_file, string name_file)
+        public RestFiles(string address, int port, bool ssl)
+        {
+            if (ssl == true) server = $"https://{address}:{port}/files/";
+            else server = $"http://{address}:{port}/files/";
+        }
+
+        private void InitAuthenticationHeaderValue()
+        {
+            authentication_header_value =
+                new AuthenticationHeaderValue("Bearer", ConsoleRender.account.cache_account.token);
+        }
+
+        public async Task<string> SendFileBinaryAsync(string path_file, string name_file)
         {
             try
             {
@@ -30,8 +44,8 @@ namespace RestClientApi.RestClient
                 Uri addres_web_server = new Uri(server + root_load);
                 using (HttpClient rest_client = new HttpClient())
                 {
-                    rest_client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", RestAccount.cache_account.token);
+                    if (authentication_header_value == null) InitAuthenticationHeaderValue();
+                    rest_client.DefaultRequestHeaders.Authorization = authentication_header_value;
                     var message_server = await rest_client.PostAsync(addres_web_server, person_string_content);
                     if (message_server.StatusCode == HttpStatusCode.Unauthorized)
                         return "Сперва авторизуйтесь для того, чтобы использовать данную функцию.";
@@ -43,15 +57,15 @@ namespace RestClientApi.RestClient
         }
 
 
-        public static async Task<FileInfoModel> DirectoryInfo()
+        public async Task<FileInfoModel> DirectoryInfo()
         {
             try
             {
                 Uri uri = new Uri(server + root_info);
                 using (HttpClient rest_client = new HttpClient())
                 {
-                    rest_client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", RestAccount.cache_account.token);
+                    if (authentication_header_value == null) InitAuthenticationHeaderValue();
+                    rest_client.DefaultRequestHeaders.Authorization = authentication_header_value;
                     var message_server = await rest_client.GetAsync(uri);
                     if (message_server.StatusCode == HttpStatusCode.Unauthorized)
                         Console.WriteLine("Сперва авторизуйтесь для того, чтобы использовать данную функцию.");
@@ -63,7 +77,7 @@ namespace RestClientApi.RestClient
             catch (Exception) { Console.WriteLine("Произошла непредвиденная ошибка при просмотре директории."); return null; }
         }
 
-        public static async Task<string> DownloadFile(string name_file, string path_save_file)
+        public async Task<string> DownloadFile(string name_file, string path_save_file)
         {
             try
             {
@@ -71,8 +85,8 @@ namespace RestClientApi.RestClient
                 Uri uri = new Uri(server + root_download + name_file);
                 using (HttpClient rest_client = new HttpClient())
                 {
-                    rest_client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", RestAccount.cache_account.token);
+                    if (authentication_header_value == null) InitAuthenticationHeaderValue();
+                    rest_client.DefaultRequestHeaders.Authorization = authentication_header_value;
                     var message_server = await rest_client.GetAsync(uri);
                     if (message_server.StatusCode == HttpStatusCode.Unauthorized)
                         return "Сперва авторизуйтесь для того, чтобы использовать данную функцию.";

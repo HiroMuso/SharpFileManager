@@ -1,19 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace RestClientApi.RestClient
 {
-    public class RestClient
+    public class RestRequest
     {
-
-        private static object post_data = null;
+        private object post_data = null;
         public enum TypeRequest
         {
             GET,
@@ -27,8 +24,7 @@ namespace RestClientApi.RestClient
             WEB_CLIENT,
         }
 
-
-        public static async Task<string> ReadRequest(string address, TypeRequest type_request = TypeRequest.GET)
+        public async Task<string> ReadRequest(string address, TypeRequest type_request = TypeRequest.GET)
         {
             if (type_request == TypeRequest.POST)
             {
@@ -71,7 +67,7 @@ namespace RestClientApi.RestClient
         }
 
 
-        public static async Task<string> DownloadFile(string address, string path_save_file, string name_file, TypeMethodDownloadFile type_method_download_file = TypeMethodDownloadFile.HTTP_CLIENT_STREAM, string expansion_file = null)
+        public async Task<string> DownloadFile(string address, string path_save_file, string name_file, TypeMethodDownloadFile type_method_download_file = TypeMethodDownloadFile.HTTP_CLIENT_STREAM, string expansion_file = null)
         {
             bool address_validate = address.IndexOf("/") == -1 ? false : true;
             if (address_validate)

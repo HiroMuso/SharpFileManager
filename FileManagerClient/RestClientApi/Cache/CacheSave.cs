@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 using System;
-using RestClientApi.RestClient;
+using RestClientApi.UserInterface;
 
 namespace RestClientApi.Cache
 {
@@ -32,7 +32,7 @@ namespace RestClientApi.Cache
                 if (!File.Exists(full_path)) return false;
                 Console.WriteLine($"Начался процесс выгрузки кеша из локального диска по пути: {full_path}. Не удаляйте данный файл.");
                 string json_file = File.ReadAllText(full_path);
-                RestAccount.cache_account = JsonConvert.DeserializeObject<CacheAccount>(json_file);
+                ConsoleRender.account.cache_account = JsonConvert.DeserializeObject<CacheAccount>(json_file);
                 Console.WriteLine($"Кеш успешно выгрузился из файла.");
                 return true;
             }
@@ -41,7 +41,7 @@ namespace RestClientApi.Cache
 
         public static void ExitAccount()
         {
-            RestAccount.cache_account = null;
+            ConsoleRender.account.cache_account = null;
             if (Directory.Exists(CacheOther.name_directory)) Directory.Delete(CacheOther.name_directory, true);
             Console.Write("Вы успешно вышли из аккаунта.");
         }

@@ -1,8 +1,7 @@
 ﻿using RestClientApi.Cache;
 using RestClientApi.RestClient;
 using System;
-using System.Drawing;
-using System.Text;
+using System.Configuration;
 using System.Threading.Tasks;
 
 namespace RestClientApi.UserInterface
@@ -11,6 +10,10 @@ namespace RestClientApi.UserInterface
     {
         private static bool is_exit_programm = false;
         private static bool is_exit_service = false;
+
+        public static RestFiles files;
+        public static RestAccount account;
+        public static RestRequest request;
         public static void Init(string title, int height, int width, ConsoleColor background_color, ConsoleColor foreground_color)
         {
             Console.Title = title;
@@ -18,6 +21,14 @@ namespace RestClientApi.UserInterface
             Console.WindowWidth = width;
             Console.BackgroundColor = background_color;
             Console.ForegroundColor = foreground_color;
+
+            string address = ConfigurationManager.AppSettings.Get("ip");
+            int port = int.Parse(ConfigurationManager.AppSettings.Get("port"));
+            bool ssl = bool.Parse(ConfigurationManager.AppSettings.Get("ssl"));
+
+            files = new RestFiles(address, port, ssl);
+            account = new RestAccount(address, port, ssl);
+            request = new RestRequest();
         }
 
         public static async Task StartAsync()
@@ -65,7 +76,7 @@ namespace RestClientApi.UserInterface
                     string name_file = Console.ReadLine();
                     Console.Write("Укажите полный путь файла: ");
                     string path_file = Console.ReadLine();
-                    string message_server = await RestFiles.SendFileBinaryAsync(path_file, name_file);
+                    string message_server = await files.SendFileBinaryAsync(path_file, name_file);
 
                     if (message_server == null) Console.WriteLine("Вы ввели некорретные данные, либо отправили пустой файл.");
                     else Console.WriteLine(message_server);
@@ -107,7 +118,7 @@ namespace RestClientApi.UserInterface
         public static int ServicePage()
         {
             Console.WriteLine();
-            Console.WriteLine($"Ваш аккаунт: {RestAccount.cache_account.username}. Пользуйтесь сервисом на здоровье.");
+            Console.WriteLine($"Ваш аккаунт: {account.cache_account.username}. Пользуйтесь сервисом на здоровье.");
             Console.WriteLine("1.Загрузить файл.");
             Console.WriteLine("2.Выгрузить файл.");
             Console.WriteLine("3.Просмотр удаленной директории.");
@@ -129,7 +140,7 @@ namespace RestClientApi.UserInterface
             Console.Write("Подтвердите пароль: ");
             string confirm_password = Console.ReadLine();
 
-            bool is_registration = await RestAccount.Registration(username, email, password, confirm_password);
+            bool is_registration = await account.Registration(username, email, password, confirm_password);
 
             if (is_registration) return true;
 
@@ -145,7 +156,7 @@ namespace RestClientApi.UserInterface
             Console.Write("Пароль: ");
             string password = Console.ReadLine();
 
-            bool is_login = await RestAccount.Login(username, password);
+            bool is_login = await account.Login(username, password);
 
             if (is_login) return true;
 

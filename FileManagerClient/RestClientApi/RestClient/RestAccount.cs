@@ -11,13 +11,19 @@ namespace RestClientApi.RestClient
 {
     public class RestAccount
     {
-        private static string server = "http://localhost:5001/account/";
-        private static string root_registration = "registration";
-        private static string root_login = "login";
+        private string server = null;
+        private string root_registration = "registration";
+        private string root_login = "login";
 
-        public static CacheAccount cache_account;
+        public CacheAccount cache_account;
 
-        public static async Task<bool> Registration(string username, string email, string password, string confirm_password)
+        public RestAccount(string address, int port, bool ssl)
+        {
+            if (ssl == true) server = $"https://{address}:{port}/account/";
+            else server = $"http://{address}:{port}/account/";
+        }
+
+        public async Task<bool> Registration(string username, string email, string password, string confirm_password)
         {
             try
             {
@@ -54,7 +60,7 @@ namespace RestClientApi.RestClient
             catch (Exception ex) { Console.WriteLine($"Не удалось зайти в аккаунт из-за ошибки: {ex.Message}."); return false; }       
         }
 
-        public static async Task<bool> Login(string username, string password)
+        public async Task<bool> Login(string username, string password)
         {
             try
             {
